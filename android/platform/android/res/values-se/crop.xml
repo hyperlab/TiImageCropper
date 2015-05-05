@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="http://schemas.android.com/tools">
+    <!-- From: file:/Users/jonatanlundin/Code/Github/android-crop/lib/src/main/res/values-se/strings.xml -->
+    <eat-comment/>
+    <string name="crop__cancel" ns1:ignore="ButtonCase">AVBRYT</string>
+    <string name="crop__done">SPARA</string>
+    <string name="crop__pick_error">Inga tillgängliga bildkällor</string>
+    <string name="crop__saving">Sparar bild…</string>
+    <string name="crop__wait">Vänta lite…</string>
+</resources>

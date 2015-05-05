@@ -120,6 +120,13 @@ public class TiImageCropperModule extends KrollModule implements TiActivityResul
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, destination);
         cropIntent.putExtra("aspect_x", 1);
         cropIntent.putExtra("aspect_y", 1);
+
+        if (options.containsKeyAndNotNull("size")) {
+            Log.i(LCAT, "Setting size to:" + options.getInt("size").toString());
+            cropIntent.putExtra("max_x", options.getInt("size"));
+            cropIntent.putExtra("max_y", options.getInt("size"));
+        }
+
         cropIntent.setClass(activity, CropImageActivity.class);
 
         support.launchActivityForResult(cropIntent, Crop.REQUEST_CROP, this);
