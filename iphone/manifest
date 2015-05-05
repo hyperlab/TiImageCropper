@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+architectures: armv7 arm64 i386 x86_64
+description: TiImageCropper
+author: Jonatan Lundin
+license: Specify your license
+copyright: Copyright (c) 2015 by Your Company
+
+# these should not be edited
+name: TiImageCropper
+moduleid: se.hyperlab.imagecropper
+guid: 3f9278fb-c443-430a-8b6c-e7ee932b746c
+platform: iphone
+minsdk: 3.4.1.GA
