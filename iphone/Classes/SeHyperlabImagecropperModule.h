@@ -16,4 +16,6 @@
 @property KrollCallback *doneCallback;
 @property KrollCallback *cancelCallback;
 
+@property int maxSize;
+
 @end

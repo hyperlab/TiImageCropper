@@ -14,7 +14,7 @@
 
 @implementation SeHyperlabImagecropperModule
 
-@synthesize cropViewNavigationController, doneCallback, cancelCallback;
+@synthesize cropViewNavigationController, doneCallback, cancelCallback, maxSize;
 
 #pragma mark Internal
 
@@ -81,7 +81,8 @@
         
         ENSURE_ARG_FOR_KEY(blob, dict, @"image", TiBlob);
         ENSURE_ARG_FOR_KEY(doneCallback, dict, @"success", KrollCallback);
-        ENSURE_ARG_FOR_KEY(cancelCallback, dict, @"cancel", KrollCallback);
+        ENSURE_ARG_OR_NIL_FOR_KEY(cancelCallback, dict, @"cancel", KrollCallback);
+        maxSize = [TiUtils intValue:@"size" properties:dict def:-1];
         
         UIImage* image = [blob image];
         
@@ -119,8 +120,13 @@
         TiRect *rect = [[TiRect alloc] init];
         [rect setRect:cropRect];
         
+        if (maxSize && maxSize > -1) {
+            CGSize size = CGSizeMake(maxSize, maxSize);
+            croppedImage = [self imageWithImage:croppedImage andSize:size];
+        }
+        
         NSDictionary *event = @{
-                               @"image": [[TiBlob alloc] initWithImage:croppedImage],
+                               @"image": [self blobWithImage:croppedImage andCompression:0.9],
                                @"rect": rect,
                                @"rotationAngle": [NSNumber numberWithFloat:rotationAngle]
                                };
@@ -128,6 +134,20 @@
     }
     [[TiApp app] hideModalController:cropViewNavigationController animated:YES];
     [self cleanup];
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image andSize:(CGSize)size
+{
+    UIGraphicsBeginImageContext(size);
+    [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    UIImage *destImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return destImage;
+}
+
+- (TiBlob *)blobWithImage:(UIImage *)image andCompression:(float)compression
+{
+    return [[TiBlob alloc] initWithData:UIImageJPEGRepresentation(image, compression) mimetype:@"image/jpeg"];
 }
 
 @end
