@@ -1,0 +1,20 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 1.0.0
+apiversion: 2
+architectures: armeabi armeabi-v7a x86
+description: TiImageCropper
+author: Jonatan Lundin
+license: MIT
+copyright: Copyright (c) 2015 by Hyperlab AB
+
+respackage: com.soundcloud.android.crop
+
+# these should not be edited
+name: TiImageCropper
+moduleid: se.hyperlab.imagecropper
+guid: 3f9278fb-c443-430a-8b6c-e7ee932b746c
+platform: android
+minsdk: 3.4.1.GA
