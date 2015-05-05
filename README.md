@@ -1,4 +1,4 @@
-# Mixpanel iOS Module
+# Titanium Image Cropper
 
 ## Description
 
