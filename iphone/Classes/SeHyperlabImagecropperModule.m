@@ -71,23 +71,34 @@
 
 #pragma Public APIs
 
+MAKE_SYSTEM_PROP(CROP_MODE_SQUARE, RSKImageCropModeSquare);
+MAKE_SYSTEM_PROP(CROP_MODE_CIRCLE, RSKImageCropModeCircle);
+
 -(void)open:(id)args
 {
     TiThreadPerformOnMainThread(^{
         TiBlob *blob;
         NSDictionary *dict;
+        NSNumber *cropModeArg;
         
         ENSURE_ARG_OR_NIL_AT_INDEX(dict, args, 0, NSDictionary);
         
         ENSURE_ARG_FOR_KEY(blob, dict, @"image", TiBlob);
         ENSURE_ARG_FOR_KEY(doneCallback, dict, @"success", KrollCallback);
         ENSURE_ARG_OR_NIL_FOR_KEY(cancelCallback, dict, @"cancel", KrollCallback);
+        ENSURE_ARG_OR_NIL_FOR_KEY(cropModeArg, dict, @"cropMode", NSNumber);
+
         maxSize = [TiUtils intValue:@"size" properties:dict def:-1];
+
+        RSKImageCropMode cropMode = RSKImageCropModeSquare;
+        if (cropModeArg != nil) {
+            cropMode = (RSKImageCropMode)[cropModeArg integerValue];
+        }
         
         UIImage* image = [blob image];
         
         RSKImageCropViewController *controller = [[RSKImageCropViewController alloc] initWithImage:image
-                                                                                          cropMode:RSKImageCropModeSquare];
+                                                                                          cropMode:cropMode];
         controller.delegate = self;
         controller.rotationEnabled = YES;
         controller.avoidEmptySpaceAroundImage = YES;
