@@ -1,5 +1,5 @@
 //
-// RSKImageCropper.h
+// RSKImageCropViewController+Protected.h
 //
 // Copyright (c) 2014-present Ruslan Skorb, http://ruslanskorb.com/
 //
@@ -23,7 +23,27 @@
 //
 
 /**
- `RSKImageCropper` is an image cropper for iOS like in the Contacts app with support for landscape orientation.
+ The methods in the RSKImageCropViewControllerProtectedMethods category
+ typically should only be called by subclasses which are implementing new
+ image crop view controllers. They may be overridden but must call super.
  */
+@interface RSKImageCropViewController (RSKImageCropViewControllerProtectedMethods)
 
-#import "RSKImageCropViewController.h"
+/**
+ Asynchronously crops the original image in accordance with the current settings and tells the delegate that the original image will be / has been cropped.
+ */
+- (void)cropImage;
+
+/**
+ Tells the delegate that the crop has been canceled.
+ */
+- (void)cancelCrop;
+
+/**
+ Resets the rotation angle, the position and the zoom scale of the original image to the default values.
+ 
+ @param animated Set this value to YES to animate the reset.
+ */
+- (void)reset:(BOOL)animated;
+
+@end
