@@ -2,9 +2,9 @@
 
 ## Description
 
-A cross platform image cropper for Titanium mobile. 
+A cross platform image cropper for Titanium mobile.
 
-The iOS version uses [RSKImageCropper](https://github.com/ruslanskorb/RSKImageCropper) and the 
+The iOS version uses [RSKImageCropper](https://github.com/ruslanskorb/RSKImageCropper) and the
 Android version uses [android-crop](https://github.com/jdamcd/android-crop).
 
 ## Usage
@@ -12,16 +12,33 @@ Android version uses [android-crop](https://github.com/jdamcd/android-crop).
 ```js
 var imageCropper = require('se.hyperlab.imagecropper');
 
-imageCropper.open({
-  image: originalImage,
-  size: 960,
-  error: function (e) {
-    console.error('[CROPPING ERROR] ' + e);
-  },
-  success: function (e) {
-    someImageView.image = e.image;
-  }
-});
+if (OS_ANDROID){
+    imageCropper.open({
+      image: originalImage,
+      aspect_x: 1,
+      aspect_y: 2,
+      max_x: 300,
+      max_y: 300,
+      //size: 960,  // for square images with aspect_x = aspect_y = 1
+      error: function (e) {
+        console.error('[CROPPING ERROR] ' + e);
+      },
+      success: function (e) {
+        someImageView.image = e.image;
+      }
+    });    
+} else {
+    imageCropper.open({
+      image: originalImage,
+      size: 960,
+      error: function (e) {
+        console.error('[CROPPING ERROR] ' + e);
+      },
+      success: function (e) {
+        someImageView.image = e.image;
+      }
+    });
+}
 ```
 
 You will also need to install and include the module in your `tiapp.xml` file.
