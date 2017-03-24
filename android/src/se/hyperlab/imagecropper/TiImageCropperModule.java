@@ -102,7 +102,7 @@ public class TiImageCropperModule extends KrollModule implements TiActivityResul
 	// Methods
 	@Kroll.method
 	public void open(KrollDict options) {
-        Activity activity = getTiContext().getTiApp().getCurrentActivity();
+        Activity activity = TiApplication.getInstance().getCurrentActivity();
         TiActivitySupport support = (TiActivitySupport) activity;
 
 		successCallback = getCallback(options, "success");
