@@ -102,7 +102,7 @@ public class TiImageCropperModule extends KrollModule implements TiActivityResul
 	// Methods
 	@Kroll.method
 	public void open(KrollDict options) {
-        Activity activity = getTiContext().getTiApp().getCurrentActivity();
+        Activity activity = TiApplication.getInstance().getCurrentActivity();
         TiActivitySupport support = (TiActivitySupport) activity;
 
 		successCallback = getCallback(options, "success");
@@ -118,15 +118,25 @@ public class TiImageCropperModule extends KrollModule implements TiActivityResul
 
         cropIntent.setData(source);
         cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, destination);
-        cropIntent.putExtra("aspect_x", 1);
-        cropIntent.putExtra("aspect_y", 1);
 
-        if (options.containsKeyAndNotNull("size")) {
-            Log.i(LCAT, "Setting size to:" + options.getInt("size").toString());
-            cropIntent.putExtra("max_x", options.getInt("size"));
-            cropIntent.putExtra("max_y", options.getInt("size"));
+		cropIntent.putExtra("aspect_x", options.getInt("aspect_x"));
+        cropIntent.putExtra("aspect_y", options.getInt("aspect_y"));
+
+        if (options.containsKeyAndNotNull("max_y")) {
+			cropIntent.putExtra("max_y", options.getInt("max_y"));
+		}
+		if (options.containsKeyAndNotNull("max_x")) {
+            cropIntent.putExtra("max_x", options.getInt("max_x"));
         }
 
+		// override with size for square images and backwards compatibility
+		if (options.containsKeyAndNotNull("size")) {
+			cropIntent.putExtra("max_x", options.getInt("size"));
+			cropIntent.putExtra("max_y", options.getInt("size"));
+
+			cropIntent.putExtra("aspect_x", 1);
+	        cropIntent.putExtra("aspect_y", 1);
+		}
         cropIntent.setClass(activity, CropImageActivity.class);
 
         support.launchActivityForResult(cropIntent, Crop.REQUEST_CROP, this);
